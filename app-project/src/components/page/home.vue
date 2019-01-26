@@ -287,6 +287,7 @@ export default {
             }
         }
         .app-Home-sort-bottom{
+            padding-bottom:1.1rem;
             ul{
                 li{
                     padding:.3rem .2rem;

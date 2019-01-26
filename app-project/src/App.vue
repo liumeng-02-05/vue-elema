@@ -1,16 +1,20 @@
 <template>
   <div id="app">
+    <Mine/>
  
-    <home/>
   </div>
 </template>
 
 <script>
-import home from "./components/page/home"
+import home from "./components/page/home";
+import Foot from "./components/common/Foot";
+import Find from "./components/page/Find"
+import Login from "./components/page/Login"
+import Mine from "./components/page/Mine"
 export default {
   name: 'App',
   components : {
-    home
+    home,Foot,Find,Login,Mine
   }
 }
 </script>

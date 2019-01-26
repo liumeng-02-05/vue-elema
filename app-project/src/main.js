@@ -8,6 +8,7 @@ import "./instrument/rem"
 import "./stylesheet/main.scss"
 Vue.config.productionTip = false
 //引入全局的工具库
+import "../node_modules/font-awesome/css/font-awesome.css"
 // import "./instrument"
 /* eslint-disable no-new */
 new Vue({
