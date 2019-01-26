@@ -169,7 +169,7 @@ export default {
                         font-size:.36rem;
                     }
                     span{
-                        font-size:.36rem;
+                        font-size:.28rem;
                         color:#333;
                     }
                 }
