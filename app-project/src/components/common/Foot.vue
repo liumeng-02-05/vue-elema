@@ -2,40 +2,48 @@
     <div class="app-Foot">
         <ul>
             <li v-for = "v in arr " :key="v.id">
-                <a href="javascript:;">
+                <router-link
+                    :to="{name:v.name}"
+                >
                     <i  :class="['fa',v.class]"></i>
                     <span>{{v.conter}}</span>
-                </a>
+                </router-link>
             </li>
         </ul>
       
     </div>
 </template>
 <script>
+
 export default {
     name : "app-Foot",
     data (){
         return {
+      
             arr : [
                 {
                     id : 1 ,
                     conter : "首页",
-                    class : "fa-home"
+                    class : "fa-home",
+                    name : "home"
                 },
                  {
                     id : 2,
                     conter : "发现",
-                    class : "fa-search"
+                    class : "fa-search",
+                    name : "find"
                 },
                  {
                     id : 3 ,
                     conter : "订单",
-                    class : "fa-calendar-minus-o"
+                    class : "fa-calendar-minus-o",
+                    name :　"shopcar"
                 },
                  {
                     id :4,
                     conter : "我的",
-                    class : "fa-user-o"
+                    class : "fa-user-o",
+                    name :　"mine"
                 }
 
             ]

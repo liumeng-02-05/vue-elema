@@ -1,11 +1,19 @@
 <template>
     <div class="Mine">
-        <div class="Mine-top">
-          <a href="">
+        <div class="Mine-top" >
+          <a href="javascript:;">
                 <img src="../../assets/ddd.png" alt="">
-                <p>
-                    <span>登录/注册</span>
-                    <b><i class="fa fa-mobile"></i>登录后享取更多特权</b>
+                <p
+                @click="goLogin"
+                >
+                    <span
+                        v-if="!user"
+                    >登录/注册</span>
+                    <span >{{phone}}</span>
+                    <b 
+                      v-if="!user"
+                    >登录后享取更多特权</b>
+                    <b>{{phone}}</b>
                 </p>
           </a>
         </div>
@@ -60,13 +68,33 @@
             </p>
             <a href="">隐私政策</a>
         </div>
+       
     </div>
 </template>
 
 
 <script>
+import state from "../../store/state"
 export default {
-    name : "Mine"
+    name : "Mine",
+    data(){
+        return {
+            user : state.userTrue,
+            phone : state.usermsg
+        }
+    },
+    methods : {
+        goLogin(){
+            this.$router.history.push("/login");
+        }
+    },
+    beforeRouteEnter(to,from,next){
+        // console.log(state.userTrue,state.usermsg)
+        var username = localStorage.getItem("user");
+        if(username){
+            next(true);
+        }
+    }
 }
 </script>
 

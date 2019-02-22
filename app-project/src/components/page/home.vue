@@ -13,16 +13,16 @@
         </div>
         <div class="app-Home-list">
             <!-- 首页的分类列表  使用sweiper滑动  -->
-            <div class="app-Home-list-one clear">
-                <a href="javascript:;">
-                    <img src="http://temp.im/90x90/4CD964/fff"  alt="" />
-                    <span>美食</span>
+            <div class="app-Home-list-one clear" >
+                <a href="javascript:;" v-for="v in nav1" :key="v.id">
+                   <img :src="'https://fuss10.elemecdn.com/'+ v.image_hash.substring(0,1)+'/'+v.image_hash.substring(1,3)+ '/' +v.image_hash.substring(3)+'.jpeg?imageMogr/format/webp/thumbnail/!140x140r/gravity/Center/crop/140x140/'"  alt="">
+                    <span>{{v.name}}</span>
                 </a>
             </div>
-            <div class="app-Home-list-two claer">
-                <a href="javascript:;">
-                    <img src="http://temp.im/90x90/4CD964/fff"  alt="" />
-                    <span>美食</span>
+            <div class="app-Home-list-two claer"  style="display:none" >
+                <a href="javascript:;" v-for="v in nav2" :key="v.id">
+                    <img :src="'https://fuss10.elemecdn.com/'+ v.image_hash.substring(0,1)+'/'+v.image_hash.substring(1,3)+ '/' +v.image_hash.substring(3)+'.jpeg?imageMogr/format/webp/thumbnail/!140x140r/gravity/Center/crop/140x140/'"  alt="">
+                    <span>{{v.name}}</span>
                 </a>
             </div>       
         </div>
@@ -39,7 +39,14 @@
         </div>
         <!--  资质证照  -->
         <div class="app-Home-license">
-            <img src="http://temp.im/375x85/4CD964/fff"  alt=""/>
+            <!-- <img src="http://temp.im/375x85/4CD964/fff"  alt=""  /> -->
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" v-for="v in ban " :key="v.id">
+                        <img :src="'https://fuss10.elemecdn.com/'+ v.image_hash.substring(0,1)+'/'+v.image_hash.substring(1,3)+ '/' +v.image_hash.substring(3)+'.jpeg?imageMogr/format/webp/thumbnai/l568x'"  alt="">
+                    </div>
+                </div>
+            </div>
             <span>资质证照</span>
         </div>
         <!--  推荐商家  -->
@@ -57,40 +64,44 @@
             </div>
             <div class="app-Home-sort-bottom">
                 <ul>
-                    <li>
-                        <a href="javascript:;">
+                    <li 
+                        v-for = "v in arr" :key="v.restaurant.id"
+                    >
+                        <router-link
+                         :to="{name:'detail',params:{'id':v.restaurant.id}}"
+                        >
                         <div class="app-Home-sort-bottom-left">
-                            <img src="http://temp.im/130x130/4CD964/fff"  alt="" />
+                            <img :src="'https://fuss10.elemecdn.com/'+ v.restaurant.image_path.substring(0,1)+'/'+v.restaurant.image_path.substring(1,3)+ '/' +v.restaurant.image_path.substring(3)+'.jpeg?imageMogr/format/webp/thumbnail/!140x140r/gravity/Center/crop/140x140/'"  alt="">
                         </div>
                         <div class="app-Home-sort-bottom-right">
                             <p>
-                                <i>品牌</i>
-                                <span>滁州麦当劳苏宁广场餐厅</span>
+                                <i v-if = "v.restaurant.is_premium ">{{v.restaurant.is_premium ? "品牌" : ''}}</i>
+                                <span>{{v.restaurant.name}}</span>
                                 <b>···</b>
                             </p>
                             <p>
-                                <img src="http://temp.im/112x20/4CD964/fff" alt="" />
-                                <span>4.9</span>
-                                <span>月售361单</span>
-                                <i>蜂鸟专送</i>
+                                <img src="http://temp.im/112x20/4CD964/fff"  alt="" />
+                                <span>{{v.restaurant.rating}}</span>
+                                <span>月售{{v.restaurant.recent_order_num}}单</span>
+                                <i v-if="v.restaurant.delivery_mode"> {{v.restaurant.delivery_mode ? v.restaurant.delivery_mode.text  : "" }}</i>
                             </p>
                             <p>
                                 <s>
-                                    <span>¥0起送</span>
+                                    <span>¥{{v.restaurant.float_minimum_order_amount}}起送</span>
                                     <b>|</b>
-                                    <span>配送费¥9</span>
+                                    <span>{{v.restaurant.piecewise_agent_fee.description ? v.restaurant.piecewise_agent_fee.description : v.restaurant.piecewise_agent_fee }}</span>
                                 </s>
                                 <s>
-                                    <span>735m</span>
+                                    <span>{{v.restaurant.distance}}m</span>
                                     <b>|</b>
-                                    <span>28分钟</span>
+                                    <span>{{v.restaurant.order_lead_time}}分钟</span>
                                 </s>
                             </p>
                             <p>
-                                <i>汉堡</i>
+                                <i >{{v.restaurant.support_tags[0].text}}</i>
                                 <span>
-                                    <img  src="https://fuss10.elemecdn.com/a/c1/24c767ffa7fd296d3e2d6f01798c6png.png?imageMogr/format/webp/thumbnail/!20x20r/gravity/Center/crop/20x20/" alt="" />
-                                    <b>口碑人气好店</b>
+                                    <img  v-if = 'v.restaurant.recommend.reason' src="https://fuss10.elemecdn.com/a/c1/24c767ffa7fd296d3e2d6f01798c6png.png?imageMogr/format/webp/thumbnail/!20x20r/gravity/Center/crop/20x20/" alt="" />
+                                    <b>{{v.restaurant.recommend.reason}}</b>
                                 </span>
                             </p>
                             <p></p>
@@ -105,17 +116,97 @@
                                 <span>满9减8，满20减14，满57减29，满91减35</span>
                             </p>
                         </div>
-                        </a>
+                        </router-link>
                     </li>
                 </ul>
             </div>
         </div>
-       
+        <a class="Home-right" href="javascript:;" @click="gotop" > </a>
     </div>
 </template>
 <script>
+import axios from "axios";
+import Swiper from "swiper";
+// console.log(Swiper)
+import Vue from 'vue'
 export default {
-    name : "app-Home"
+    name : "app-Home",
+    data(){
+        return{
+            arr : [],
+            nav1 : [],
+            nav2 : [],
+            ban : []
+        }
+    },
+    methods:{
+        gotop(){
+            const scrollToTop = () => {
+            const c = document.documentElement.scrollTop || document.body.scrollTop;
+                if (c > 0) {
+                window.requestAnimationFrame(scrollToTop);
+                window.scrollTo(0, c - c / 8);
+                }
+            };
+            scrollToTop();
+        }
+    },
+    created(){
+        // 获取数据
+        // axios.get("/ele/restapi/shopping/v3/restaurants",{
+        //     params : {
+        //         latitude: 32.303627,
+        //         longitude: 118.316264,
+        //         offset: 0,
+        //         limit: 8,
+        //         'extras[]': 'activities',
+        //         'extras[]': 'tags',
+        //         extra_filters: 'home',
+        //         rank_id: null,
+        //         terminal: 'h5'
+        //     }
+        // })
+        // .then((res) => {
+        //     // console.log(res.data)
+        //    this.arr = res.data.items;
+        // })
+        // .catch(err => console.log(err))
+        // 商品信息
+        axios.get("../../../static/data/home.json")
+        .then((res) => {
+            // console.log(res);
+            this.arr = res.data.items;
+        })
+        .catch(err => console.log(err))
+        // 导航信息
+        axios.get("../../../static/data/home-nav.json")
+        .then((res) => {
+            // console.log(res.data[0].entries);
+            this.nav1 = res.data[0].entries.slice(0,10)
+            this.nav2 = res.data[0].entries.slice(10);
+        })
+        .catch(err => console.log(err))
+        // 轮播信息
+        axios.get("../../../static/data/home-ban.json")
+        .then((res) => {
+            // console.log(res.data);
+            this.ban = res.data;
+        })
+        .catch(err => console.log(err))
+        // swiper实例化
+        // this.nextTick(()=>{
+        //     this.swiper = new Swiper('.swiper-container',{
+        //         autoplay: true,
+        //         loop: true
+        //     })
+        // })
+        setTimeout(function(){
+            new Swiper('.swiper-container',{
+                autoplay : true,
+                loop: true
+            })
+        },0) 
+    }
 }
 </script>
 
@@ -160,14 +251,17 @@ export default {
         }
     }
     .app-Home-list{
+        height:1.77rem;
         div{
             // width:100%;
-            // height:3.54rem;
+            height:3.54rem;
+            float:left;
             a{
                 display:block;
                 margin-top:.2rem;
                 width:1.5rem;
                 height:1.27rem;
+                float:left;
                 img{
                     display:block;
                     width:.9rem;
@@ -245,6 +339,7 @@ export default {
             border-radius: .15rem;
             right:.05rem;
             bottom:.08rem;
+            z-index:100;
         }
     }
     .app-Home-recommend{
@@ -331,7 +426,6 @@ export default {
                                 }
                                 b{
                                     float: right;
-                                    width:.54rem;
                                     height:.27rem;
                                     display:block;
                                 }
@@ -484,6 +578,20 @@ export default {
             }
         }
     }
-    
+    .Home-right{
+        display:block;
+        position:fixed;
+        right:.3rem;
+        bottom:2rem;
+        width:.85rem;
+        height:.85rem;
+        border-radius: 50%;
+        background:#fff url(../../../static/img/ssss.png) no-repeat;
+        z-index:1001;
+        border:.01rem solid #ccc;
+        background-size:cover;
+       
+        
+    }
 }
 </style>

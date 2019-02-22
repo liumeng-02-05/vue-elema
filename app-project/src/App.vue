@@ -1,20 +1,40 @@
 <template>
   <div id="app">
-    <Mine/>
- 
+      <router-view></router-view>
+    <Foot  v-show = 'footTrue'></Foot>
+
   </div>
 </template>
 
 <script>
-import home from "./components/page/home";
-import Foot from "./components/common/Foot";
-import Find from "./components/page/Find"
-import Login from "./components/page/Login"
-import Mine from "./components/page/Mine"
+import Foot from "./components/common/Foot"
+ import {mapGetters} from 'vuex'
+ import {FOOT_CHANGE,FOOT_CHANGE2} from "./store/type"
 export default {
   name: 'App',
+  
   components : {
-    home,Foot,Find,Login,Mine
+    Foot
+  },
+  computed: {
+      ...mapGetters(["footTrue"])
+    },
+  watch: {
+      //路由的监听
+      $route: {
+        handler(){
+          let path = this.$route.path ;
+          let arr =["/hopcar","/login"]
+          if(/login|hopcar|detail/.test(path)){
+              this.$store.dispatch('FOOT_CHANGE',false)
+          }
+           if(/home|mine|find/.test(path)){
+            this.$store.dispatch('FOOT_CHANGE',true)
+          }
+           
+        },
+        immediate: true //立刻开启当前数据监听和执行
+      }
   }
 }
 </script>

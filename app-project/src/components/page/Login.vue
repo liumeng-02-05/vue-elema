@@ -3,25 +3,39 @@
         <img src="../../assets/logo.png" alt="">
         <div class="Login-input">
             <p>
-                <input type="text" placeholder="手机号">
+                <input type="text" placeholder="手机号" v-model="usermsg">
                 <span>获取验证码</span>
             </p>
             <p>
                 <input type="text" placeholder="验证码">
             </p>
             <p>新用户登录即自动注册,并表示已同意<a href="">《用户服务协议》</a></p>
-            <button>登录</button>
+            <button
+                @click="Login"
+            >登录</button>
             <a href="javascript:;">关于我们 </a>
         </div>
     </div>
 </template>
 
 <script>
+// import {mapActions} from "vuex"
+import {ADD_USER} from "../../store/type.js"
 export default {
-    name : "Login"
+    name : "Login",
+    data(){
+        return {
+            usermsg : ""
+        }
+    },
+    methods : {
+        Login(){
+            this.$store.dispatch(ADD_USER,this.usermsg);
+            this.$router.push("/mine");
+        }
+    }
 }
 </script>
-
 
 <style lang="scss" scoped>
     .Login{

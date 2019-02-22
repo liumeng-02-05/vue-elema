@@ -42,14 +42,14 @@
                  <p>金币换豪礼</p>
             </div>
             <ul>
-                <li>
-                   <a href="">
-                        <b>限时优惠</b>
-                        <img src="https://fuss10.elemecdn.com/d/e8/e9079650047f1cc00c16474a1e8bdjpeg.jpeg?imageMogr/format/webp/" alt="">
-                        <p>3元饿了吗鲜果优惠券</p>
+                <li v-for="(v,i) in data" :key="i">
+                   <a :href="v.url">
+                        <b>{{v.corner_marker}}</b>
+                        <img :src="'https://fuss10.elemecdn.com/'+ v.image_hash.substring(0,1)+'/'+v.image_hash.substring(1,3)+ '/' +v.image_hash.substring(3)+'.jpeg?imageMogr/format/webp/'"  alt="">
+                        <p>{{v.title}}</p>
                         <span>
-                            <b>90金币</b>
-                            <s>¥3</s>
+                            <b>{{v.points_required}}金币</b>
+                            <s>¥{{v.original_price}}</s>
                         </span>
                    </a>
                 </li>
@@ -61,8 +61,28 @@
 
 
 <script>
+import axios from "axios"
+import Swiper from "swiper"
 export default {
-    name : "Find"
+    name : "Find",
+    data(){
+        return{
+            data : []
+        }
+    },
+    created(){
+        axios.get("../../../static/data/find.json")
+        .then((res) => {
+            // console.log(res.data)   
+            this.data = res.data;
+        }).catch(err => comsole.log(err));
+        setTimeout(function(){
+            new Swiper('.swiper-container',{
+                autoplay : true,
+                loop: true
+            })
+        },0) 
+    }
 }
 </script>
 
@@ -189,6 +209,7 @@ export default {
                 padding:.2rem .3rem;
                 display:flex;
                 justify-content: space-between;
+                overflow-x: auto;
                 li{
                     width:2.22rem;
                     height:3.33rem;
